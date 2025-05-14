@@ -34,10 +34,19 @@ def generate_modul(transkrip_id):
         flash('Teks transkrip kosong', 'error')
         return redirect(url_for('upload.view_transkrip', transkrip_id=transkrip_id))
 
-    model_modul = genai.GenerativeModel('models/gemini-2.0-flash')
+    model_modul = genai.GenerativeModel(
+    model_name='models/gemini-2.0-flash',
+    generation_config={
+        'temperature': 0.7,       
+        'top_p': 0.9,             
+        'top_k': 40,              
+        'max_output_tokens': 100000
+    }
+)
+
 
     prompt_modul = """
-    Buatkan modul pembelajaran dari materi berikut. Output HARUS dalam format JSON murni seperti contoh berikut dan SEMUA field wajib diisi:
+    Buatkan modul pembelajaran dari materi berikut. Output HARUS dalam format JSON murni seperti contoh berikut, minimal paling tidak 20000 token dan SEMUA field wajib diisi:
 
     {
       "judul_modul": "Judul modul sesuai topik",

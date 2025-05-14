@@ -17,7 +17,7 @@ import re
 quizz = Blueprint('quizz', __name__)
 
 # Konfigurasi API Gemini
-API_KEY = 'AIzaSyBrMJUmYN9k0_7Zduup7Y-szHGarGKWztA'  # Ganti dengan API Key Anda
+API_KEY = 'AIzaSyBrMJUmYN9k0_7Zduup7Y-szHGarGKWztA' 
 genai.configure(api_key=API_KEY)
 
 @quizz.route('/quiz')
@@ -54,7 +54,7 @@ def generate_questions(modul_content, jumlah_soal):
     model_soal = genai.GenerativeModel(
         'models/gemini-2.0-flash',
         generation_config=genai.types.GenerationConfig(
-            temperature=0.2,
+            temperature=0.7,
             top_p=0.1,
             top_k=40,
             max_output_tokens=4096

@@ -34,10 +34,18 @@ def generate_summarize(transkrip_id):
         flash('Teks transkrip kosong', 'error')
         return redirect(url_for('upload.view_transkrip', transkrip_id=transkrip_id))
 
-    model_summarize = genai.GenerativeModel('models/gemini-2.0-flash')
+    model_summarize = genai.GenerativeModel(
+    model_name='models/gemini-2.0-flash',
+    generation_config={
+        'temperature': 0.7,
+        'top_p': 0.9,
+        'top_k': 40,
+        'max_output_tokens': 7000
+    }
+)
 
     prompt_summarize = """
-    Tolong buatkan rangkuman dari materi berikut ini. Output HARUS berbentuk JSON murni seperti contoh di bawah dan SEMUA field wajib diisi, walaupun materinya tidak lengkap:
+    Tolong buatkan rangkuman dari materi berikut ini. Output HARUS berbentuk JSON murni seperti contoh di bawah dan SEMUA field wajib diisi, minimal paling tidak 5000 token,walaupun materinya tidak lengkap:
     [
         {
             "judul_rangkuman": "Judul",

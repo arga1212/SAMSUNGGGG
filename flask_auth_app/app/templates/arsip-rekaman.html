@@ -41,7 +41,33 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
 
         <!-- Phosphor Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.0.3/src/regular/style.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.0.3/src/regular/style.min.css">
+        
+        <style>
+            .table thead th {
+                font-weight: 600;
+                padding: 15px;
+            }
+            .table tbody td {
+                padding: 15px;
+                vertical-align: middle;
+            }
+            .action-buttons {
+                display: flex;
+                gap: 8px;
+            }
+            .fixed-width {
+                width: 50px;
+            }
+            .dashboard-header {
+                margin-bottom: 30px;
+            }
+            .card {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                margin-bottom: 30px;
+            }
+        </style>
     </head>
     
 <body>
@@ -49,172 +75,106 @@
   <div class="preloader">
     <div class="loader"></div>
   </div>
-<!--==================== Preloader End ====================-->
+  <!--==================== Preloader End ====================-->
 
-<!--==================== Sidebar Overlay End ====================-->
-<div class="side-overlay"></div>
-<!--==================== Sidebar Overlay End ====================-->
-
+  <!--==================== Sidebar Overlay End ====================-->
+  <div class="side-overlay"></div>
+  <!--==================== Sidebar Overlay End ====================-->
 
   <!-- ============================ Sidebar Start ============================ -->
+  {% include 'components/sidebar.html' %}
+  <!-- ============================ Sidebar End  ============================ -->
 
-    {% include 'components/sidebar.html' %}
-<!-- ============================ Sidebar End  ============================ -->
-
-<div class="dashboard-main-wrapper">
-
-  <div class="top-navbar flex-between gap-16">
-
-      <div class="flex-align gap-16">
-          <!-- Toggle Button Start -->
-          <button type="button" class="toggle-btn d-xl-none d-flex text-26 text-gray-500"><i class="ph ph-list"></i></button>
-          <!-- Toggle Button End -->
-          
-          <form action="#" class="w-350 d-sm-block d-none">
-              <div class="position-relative">
-                  <button type="submit" class="input-icon text-xl d-flex text-gray-100 pointer-event-none"><i class="ph ph-magnifying-glass"></i></button> 
-                  <input type="text" class="form-control ps-40 h-40 border-transparent focus-border-main-600 bg-main-50 rounded-pill placeholder-15" placeholder="Cari...">
-              </div>
-          </form>
-      </div>
-  </div>
-
-  
-  <div class="dashboard-body">
-
-      <div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
-          <!-- Breadcrumb Start -->
-          <div class="breadcrumb mb-24">
-              <ul class="flex-align gap-4">
-                  <li><a href="index.html" class="text-gray-200 fw-normal text-15 hover-text-main-600">Dashboard</a></li>
-                  <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-right"></i></span></li>
-                  <li><span class="text-main-600 fw-normal text-15">Arsip Rekaman</span></li>
-              </ul>
-          </div>
-          <!-- Breadcrumb End -->
-
-          <!-- Breadcrumb Right Start -->
-          <div class="flex-align gap-8 flex-wrap">
-              <div class="position-relative text-gray-500 flex-align gap-4 text-13">
-                  <span class="text-inherit">Filter: </span>
-                  <div class="flex-align text-gray-500 text-13 border border-gray-100 rounded-4 ps-20 focus-border-main-600 bg-white">
-                      <span class="text-lg"><i class="ph ph-funnel-simple"></i></span>
-                      <select class="form-control ps-8 pe-20 py-16 border-0 text-inherit rounded-4 text-center">
-                          <option value="1" selected>Semua</option>
-                          <option value="2">Terbaru</option>
-                          <option value="3">Terlama</option>
-                          <option value="4">Mata Pelajaran</option>
-                          <option value="5">Kelas</option>
-                      </select>
-                  </div>
-              </div>
-              <div class="flex-align text-gray-500 text-13 border border-gray-100 rounded-4 ps-20 focus-border-main-600 bg-white">
-                  <span class="text-lg"><i class="ph ph-download"></i></span>
-                  <select class="form-control ps-8 pe-20 py-16 border-0 text-inherit rounded-4 text-center" id="exportOptions">
-                      <option value="" selected disabled>Ekspor</option>
-                      <option value="csv">CSV</option>
-                      <option value="json">JSON</option>
-                  </select>
-              </div>
-          </div>
-          <!-- Breadcrumb Right End -->
-      </div>
-     
-
-      <!-- Modal untuk Rename -->
-      <div class="modal fade" id="renameModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="renameModalLabel">Ganti Nama Rekaman</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="mb-3">
-                          <label for="newName" class="form-label">Nama Baru</label>
-                          <input type="text" class="form-control" id="newName" placeholder="Masukkan nama baru">
-                      </div>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                      <button type="button" class="btn btn-primary">Simpan Perubahan</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <!-- Modal untuk Delete -->
-      <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <p>Apakah Anda yakin ingin menghapus rekaman ini? Tindakan ini tidak dapat dibatalkan.</p>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                      <button type="button" class="btn btn-danger">Hapus</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <div class="card overflow-hidden">
-        <div class="card-body p-0 overflow-x-auto">
-            <!-- Tabel Rekaman yang Dirapikan -->
-            <table id="rekamantable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="fixed-width">
-                            <div class="form-check">
-                                <input class="form-check-input border-gray-200 rounded-4" type="checkbox" id="selectAll">
-                            </div>
-                        </th>
-                        <th class="h6 text-gray-300">Nama Rekaman</th>
-                        <th class="h6 text-gray-300">Kelas</th>
-                        <th class="h6 text-gray-300">Mata Pelajaran</th>
-                        <th class="h6 text-gray-300">Durasi</th>
-                        <th class="h6 text-gray-300">Tanggal</th>
-                        <th class="h6 text-gray-300">Status</th>
-                        <th class="h6 text-gray-300">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="rekaman-list">
-                    <tr>
-                        <td colspan="8" class="text-center text-gray-300">Memuat data...</td>
-                    </tr>
-                </tbody>
-            </table>
+  <div class="dashboard-main-wrapper">
+    <div class="top-navbar flex-between gap-16">
+        <div class="flex-align gap-16">
+            <!-- Toggle Button Start -->
+            <button type="button" class="toggle-btn d-xl-none d-flex text-26 text-gray-500"><i class="ph ph-list"></i></button>
+            <!-- Toggle Button End -->
+            
+            <form action="#" class="w-350 d-sm-block d-none">
+                <div class="position-relative">
+                    <button type="submit" class="input-icon text-xl d-flex text-gray-100 pointer-event-none"><i class="ph ph-magnifying-glass"></i></button> 
+                    <input type="text" class="form-control ps-40 h-40 border-transparent focus-border-main-600 bg-main-50 rounded-pill placeholder-15" placeholder="Cari...">
+                </div>
+            </form>
         </div>
-        <div class="card-footer flex-between flex-wrap">
-       
     </div>
-      
+
+    <div class="dashboard-body">
+        <div class="dashboard-header mb-24">
+            <div class="breadcrumb mb-16">
+                <ul class="flex-align gap-4">
+                    <li><a href="index.html" class="text-gray-200 fw-normal text-15 hover-text-main-600">Dashboard</a></li>
+                    <li><span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-right"></i></span></li>
+                    <li><span class="text-main-600 fw-normal text-15">Arsip Rekaman</span></li>
+                </ul>
+            </div>
+            <h4 class="fw-bold text-gray-800">Arsip Rekaman</h4>
+        </div>
+
+        <!-- Modal untuk Delete -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin ingin menghapus rekaman ini? Tindakan ini tidak dapat dibatalkan.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-danger">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card overflow-hidden">
+            <div class="card-body p-0 overflow-x-auto">
+                <!-- Tabel Rekaman yang Dirapikan -->
+                <table id="rekamantable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="h6 text-gray-300">Nama Rekaman</th>
+                            <th class="h6 text-gray-300">Kelas</th>
+                            <th class="h6 text-gray-300">Mata Pelajaran</th>
+                            <th class="h6 text-gray-300">Durasi</th>
+                            <th class="h6 text-gray-300">Tanggal</th>
+                            <th class="h6 text-gray-300">Status</th>
+                            <th class="h6 text-gray-300">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rekaman-list">
+                        <tr>
+                            <td colspan="7" class="text-center text-gray-300">Memuat data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-footer">
+        <div class="flex-between flex-wrap gap-16">
+            <p class="text-gray-300 text-13 fw-normal">&copy; Copyright SmartNote 2025, All Right Reserved</p>
+            <div class="flex-align flex-wrap gap-16">
+                <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Lisensi</a>
+                <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Dukungan</a>
+                <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Bantuan</a>
+                <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">FAQ</a>
+            </div>
+        </div>
+    </div>
   </div>
-  <div class="dashboard-footer">
-<div class="flex-between flex-wrap gap-16">
-  <p class="text-gray-300 text-13 fw-normal"> &copy; Copyright SmartNote 2025, All Right Reserved</p>
-  <div class="flex-align flex-wrap gap-16">
-      <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Lisensi</a>
-      <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Dukungan</a>
-      <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Bantuan</a>
-      <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">FAQ</a>
-  </div>
-</div>
-</div>
-</div>
 
 <!-- JavaScript untuk Tabel Rekaman -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Memuat data rekaman
     loadRekaman();
-    
-    // Setup Select All functionality
-    setupSelectAll();
   });
   
   function loadRekaman() {
@@ -233,7 +193,7 @@
     rekamanList.innerHTML = ''; // Kosongkan loading row
     
     if (data.files.length === 0) {
-      rekamanList.innerHTML = '<tr><td colspan="8" class="text-center text-gray-300">Tidak ada rekaman tersedia</td></tr>';
+      rekamanList.innerHTML = '<tr><td colspan="7" class="text-center text-gray-300">Tidak ada rekaman tersedia</td></tr>';
       return;
     }
     
@@ -248,11 +208,6 @@
   function createRekamanRow(file) {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td class="fixed-width">
-        <div class="form-check">
-          <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
-        </div>
-      </td>
       <td>
         <div class="d-flex align-items-center gap-3">
           <div class="w-40 h-40 rounded-circle bg-main-600 d-flex justify-content-center align-items-center flex-shrink-0">
@@ -272,7 +227,7 @@
         </span>
       </td>
       <td>
-        <div class="d-flex align-items-center gap-2">
+        <div class="action-buttons">
           <form method="POST" action="/reprocess_audio" class="d-inline">
             <input type="hidden" name="filename" value="${file.name}">
             <button type="submit" class="btn btn-sm btn-main" title="Transcribe & Edit">
@@ -294,18 +249,6 @@
         deleteRekaman(this.getAttribute('data-filename'));
       });
     });
-  }
-  
-  function setupSelectAll() {
-    const selectAllCheckbox = document.getElementById('selectAll');
-    if (selectAllCheckbox) {
-      selectAllCheckbox.addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('#rekaman-list input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-          checkbox.checked = this.checked;
-        });
-      });
-    }
   }
   
   function deleteRekaman(filename) {
@@ -336,10 +279,10 @@
   function handleLoadError(error) {
     console.error('Error:', error);
     document.getElementById('rekaman-list').innerHTML =
-      '<tr><td colspan="8" class="text-danger text-center">Gagal memuat data rekaman</td></tr>';
+      '<tr><td colspan="7" class="text-danger text-center">Gagal memuat data rekaman</td></tr>';
   }
 </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

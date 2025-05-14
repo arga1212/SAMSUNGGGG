@@ -20,27 +20,77 @@
     
     <!-- Custom CSS -->
     <style>
-        /* Perbaikan untuk card modul */
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --bg-light: #f8f9fa;
+            --text-dark: #333;
+            --card-radius: 16px;
+            --transition-speed: 0.3s;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        
+        /* Improved card styling */
         .modul-card {
-            transition: all 0.3s ease;
+            transition: all var(--transition-speed) ease;
             height: 100%;
-            border-radius: 16px;
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
         }
         
         .modul-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-color: rgba(67, 97, 238, 0.2);
         }
         
         .card-body {
-            padding: 1.5rem !important;
+            padding: 1.75rem !important;
         }
         
         .card-footer {
-            padding: 1.25rem 1.5rem !important;
+            padding: 1.25rem 1.75rem !important;
+            border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
         }
         
-        /* Perbaikan layout kolom */
+        /* Enhanced module icon */
+        .module-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.75rem;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.15);
+        }
+        
+        /* Better typography */
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 0.85rem;
+            color: #2d3748;
+            line-height: 1.3;
+        }
+        
+        .card-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #4a5568;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive improvements */
         @media (min-width: 992px) {
             .col-lg-4 {
                 flex: 0 0 auto;
@@ -48,22 +98,163 @@
             }
         }
         
-        /* Meningkatkan ukuran icon module */
-        .module-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
+        @media (max-width: 768px) {
+            .grettings-box__content {
+                padding: 1.5rem !important;
+            }
+            
+            .dashboard-body {
+                padding: 1rem;
+            }
+            
+            .module-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 1.5rem;
+            }
         }
         
-        /* Memberikan ruang untuk konten */
-        .card-title {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
+        /* Enhanced badges */
+        .badge {
+            padding: 0.5rem 0.875rem;
+            font-weight: 500;
+            font-size: 0.8rem;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         
-        .card-text {
-            margin-bottom: 1.25rem;
-            line-height: 1.5;
+        /* Buttons styling */
+        .btn {
+            padding: 0.5rem 1.15rem;
+            font-weight: 500;
+            transition: all 0.25s ease-in-out;
+        }
+        
+        .btn-sm {
+            padding: 0.4rem 0.95rem;
+        }
+        
+        .btn-main {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-main:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-outline-main {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline-main:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Header styling */
+        .grettings-box {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            padding: 1rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .grettings-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+            transform: rotate(15deg);
+        }
+        
+        .grettings-box__content {
+            position: relative;
+            z-index: 1;
+            padding: 2rem !important;
+        }
+        
+        .grettings-box h2 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.75rem;
+        }
+        
+        /* Empty state improvement */
+        .empty-state-container {
+            padding: 3rem 1.5rem;
+            text-align: center;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+        }
+        
+        .empty-state-container img {
+            max-width: 260px;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Dashboard layout */
+        .dashboard-main-wrapper {
+            padding-left: 0;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .dashboard-body {
+            padding: 1.5rem;
+            min-height: calc(100vh - 60px);
+        }
+        
+        /* Footer improvement */
+        .dashboard-footer {
+            padding: 1rem 1.5rem;
+            background-color: white;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .dashboard-footer a:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        /* Improved pagination */
+        .pagination {
+            gap: 4px;
+        }
+        
+        .pagination .page-link {
+            border-radius: 8px;
+            color: #4a5568;
+            padding: 0.5rem 0.85rem;
+            font-weight: 500;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* Animation for card loading */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modul-card {
+            animation: fadeIn 0.5s ease forwards;
+            animation-delay: calc(var(--card-index) * 0.1s);
+            opacity: 0;
         }
     </style>
 </head>
@@ -93,61 +284,32 @@
                 </button>
                 <!-- Toggle Button End -->
                 
-                <form action="#" class="w-350 d-sm-block d-none">
-                    <div class="position-relative">
-                        <button type="submit" class="input-icon text-xl d-flex text-gray-100 pointer-event-none">
-                            <i class="ph ph-magnifying-glass"></i>
-                        </button> 
-                        <input type="text" class="form-control ps-40 h-40 border-transparent focus-border-main-600 bg-main-50 rounded-pill placeholder-15" placeholder="Cari modul...">
-                    </div>
-                </form>
+                <!-- Title Section -->
+                <div>
+                    <h5 class="mb-0 d-none d-sm-block">Koleksi Modul Pembelajaran</h5>
+                </div>
             </div>
 
-            <div class="flex-align gap-16">
-                <!-- Notification Start -->
-                <div class="dropdown">
-                    <button class="dropdown-btn shaking-animation text-gray-500 w-40 h-40 bg-main-50 hover-bg-main-100 transition-2 rounded-circle text-xl flex-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="position-relative">
-                            <i class="ph ph-bell"></i>
-                            <span class="alarm-notify position-absolute end-0"></span>
-                        </span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu--lg border-0 bg-transparent p-0">
-                        <!-- Notification dropdown content -->
-                    </div>
-                </div>
-                <!-- Notification End -->
-                
-                <!-- User Profile Start -->
-                <div class="dropdown">
-                    <button class="users arrow-down-icon border border-gray-200 rounded-pill p-4 d-inline-block pe-40 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="position-relative">
-                            <img src="{{ url_for('static', filename='assets/images/thumbs/user-img.png') }}" alt="Image" class="h-32 w-32 rounded-circle">
-                            <span class="activation-badge w-8 h-8 position-absolute inset-block-end-0 inset-inline-end-0"></span>
-                        </span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu--lg border-0 bg-transparent p-0">
-                        <!-- User dropdown content -->
-                    </div>
-                </div>
-                <!-- User Profile End -->
-            </div>
+            <!-- Back to Dashboard Button -->
+            <a href="{{ url_for('auth.dashboard') }}" class="btn btn-sm btn-outline-secondary rounded-8">
+                <span class="d-flex align-items-center gap-2">
+                    <i class="ph ph-house"></i>
+                    <span class="d-none d-sm-inline">Kembali ke Beranda</span>
+                </span>
+            </a>
         </div>
         <!-- Top Navbar End -->
 
         <!-- Dashboard Body Start -->
         <div class="dashboard-body">
             <!-- Header Section Start -->
-            <div class="grettings-box position-relative rounded-16 bg-main-600 overflow-hidden gap-16 flex-wrap z-1 mb-32">
-                <img src="{{ url_for('static', filename='assets/images/bg/grettings-pattern.png') }}" alt="" class="position-absolute inset-block-start-0 inset-inline-start-0 z-n1 w-100 h-100 opacity-6">
+            <div class="grettings-box position-relative rounded-16 overflow-hidden gap-16 flex-wrap z-1 mb-32">
                 <div class="row gy-4">
-                    <div class="col-sm-7">
-                        <div class="grettings-box__content p-24">
-                            <h2 class="text-white mb-0">Modul Pembelajaran AI</h2>
-                            <p class="text-15 fw-light mt-4 text-white">Daftar modul yang dihasilkan dari rekaman Anda</p>
+                    <div class="col-sm-12">
+                        <div class="grettings-box__content">
+                            <h2 class="text-white mb-2">Modul Pembelajaran AI</h2>
+                            <p class="text-white opacity-90 mb-0">Daftar modul yang dihasilkan dari rekaman Anda</p>
                         </div>
-                    </div>
-                    <div class="col-sm-5 d-sm-block d-none">
                     </div>
                 </div>
             </div>
@@ -176,49 +338,33 @@
                 {% endif %}
             {% endwith %}
 
-            <!-- Filter and Actions Section Start -->
-            <div class="card mb-32">
-                <div class="card-body p-16">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="flex-align gap-16 flex-wrap">
-                                <!-- Filter controls could go here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Filter and Actions Section End -->
-
             <!-- Modules List Start -->
             <div class="row g-4">
                 {% for modul in modul_list %}
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="card modul-card border border-gray-100 hover-border-gray-200 transition-2">
-                            <div class="card-body p-4">
-                                <div class="mb-4">
-                                    {% set colors = ['main-600', 'main-two-600', 'purple-600', 'warning-600'] %}
-                                    {% set icons = ['notebook', 'book-open', 'book-bookmark', 'books'] %}
-                                    {% set color = colors[loop.index0 % 4] %}
-                                    {% set icon = icons[loop.index0 % 4] %}
-                                    
-                                    <div class="module-icon bg-{{ color }} flex-center mb-4">
-                                        <i class="ph ph-{{ icon }} text-white text-2xl"></i>
-                                    </div>
-                                    <h5 class="card-title fw-semibold">
-                                        {{ modul.judul_modul if modul.judul_modul else 'Tanpa Judul' }}
-                                    </h5>
-                                    <p class="card-text text-gray-600">
-                                        {{ modul.deskripsi_singkat if modul.deskripsi_singkat else 'Tidak ada deskripsi.' }}
-                                    </p>
+                    <div class="col-xl-4 col-lg-4 col-md-6" style="--card-index: {{ loop.index }}">
+                        <div class="card modul-card border-0">
+                            <div class="card-body">
+                                {% set colors = ['main-600', 'main-two-600', 'purple-600', 'warning-600'] %}
+                                {% set icons = ['notebook', 'book-open', 'book-bookmark', 'books'] %}
+                                {% set color = colors[loop.index0 % 4] %}
+                                {% set icon = icons[loop.index0 % 4] %}
+                                
+                                <div class="module-icon bg-{{ color }}">
+                                    <i class="ph ph-{{ icon }} text-white"></i>
                                 </div>
+                                <h5 class="card-title">
+                                    {{ modul.judul_modul if modul.judul_modul else 'Tanpa Judul' }}
+                                </h5>
+                                <p class="card-text">
+                                    {{ modul.deskripsi_singkat if modul.deskripsi_singkat else 'Tidak ada deskripsi.' }}
+                                </p>
                                 
                                 <div class="d-flex gap-2 mb-3 flex-wrap">
-                                    <span class="badge bg-main-50 text-main-600 rounded-pill py-2 px-3 d-inline-flex align-items-center gap-1">
+                                    <span class="badge bg-main-50 text-main-600">
                                         <i class="ph ph-calendar"></i>
                                         {{ modul.created_at.strftime('%d %b %Y') }}
                                     </span>
-                                    <span class="badge bg-gray-50 text-gray-600 rounded-pill py-2 px-3 d-inline-flex align-items-center gap-1">
+                                    <span class="badge bg-gray-50 text-gray-600">
                                         <i class="ph ph-file-text"></i>
                                         {% if modul.data_modul %}
                                             {{ modul.data_modul[:15] }}...
@@ -228,36 +374,27 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="card-footer bg-white border-0">
-                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                    <div class="flex-align gap-2">
-                                        <span class="w-32 h-32 rounded-circle overflow-hidden bg-gray-100 flex-center">
-                                            <i class="ph ph-student text-gray-600"></i>
-                                        </span>
-                                    </div>
-                                    <div class="flex-align gap-2">
-                                        <a href="{{ url_for('modul.show_modul', modul_id=modul.id) }}" class="btn btn-sm btn-outline-main rounded-8" title="Buka modul">
-                                            <i class="ph ph-eye"></i>
-                                            <span class="d-sm-inline-block ms-1">Buka</span>
-                                        </a>
-                                        <a href="{{ url_for('quizz.generate', modul_id=modul.id) }}" class="btn btn-sm btn-main rounded-8 generate-quiz-btn" data-modul-id="{{ modul.id }}" title="Buat quiz">
-                                            <i class="ph ph-lightning"></i>
-                                            <span class="d-sm-inline-block ms-1">Buat Quiz</span>
-                                        </a>
-                                    </div>
+                            <div class="card-footer bg-white">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{ url_for('modul.show_modul', modul_id=modul.id) }}" class="btn btn-sm btn-outline-main rounded-8" title="Buka modul">
+                                        <i class="ph ph-eye"></i>
+                                        <span class="d-inline-block ms-1">Buka</span>
+                                    </a>
+                                    <a href="{{ url_for('quizz.generate', modul_id=modul.id) }}" class="btn btn-sm btn-main rounded-8 generate-quiz-btn" data-modul-id="{{ modul.id }}" title="Buat quiz">
+                                        <i class="ph ph-lightning"></i>
+                                        <span class="d-inline-block ms-1">Buat Quiz</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% else %}
                     <div class="col-12">
-                        <div class="card p-5 text-center rounded-16">
-                            <div class="mb-4">
-                                <img src="{{ url_for('static', filename='assets/images/illustrations/empty-state.svg') }}" alt="No Modules" class="img-fluid" style="max-height: 200px;">
-                            </div>
+                        <div class="empty-state-container">
+                            <img src="{{ url_for('static', filename='assets/images/illustrations/empty-state.svg') }}" alt="No Modules" class="img-fluid">
                             <h4 class="mb-3">Belum Ada Modul</h4>
                             <p class="text-gray-600 mb-4">Anda belum memiliki modul pembelajaran. Mulai dengan merekam atau mengupload audio untuk membuat modul baru.</p>
-                            <div class="d-flex justify-content-center gap-3">
+                            <div class="d-flex justify-content-center gap-3 flex-wrap">
                                 <a href="{{ url_for('auth.dashboard') }}" class="btn btn-main rounded-8">
                                     <i class="ph ph-microphone"></i> Rekam Baru
                                 </a>
@@ -277,7 +414,7 @@
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
                             <li class="page-item disabled">
-                                <a class="page-link rounded-start-8" href="#" aria-label="Previous">
+                                <a class="page-link" href="#" aria-label="Previous">
                                     <i class="ph ph-caret-left"></i>
                                 </a>
                             </li>
@@ -285,7 +422,7 @@
                             <li class="page-item"><a class="page-link" href="#">2</a></li>
                             <li class="page-item"><a class="page-link" href="#">3</a></li>
                             <li class="page-item">
-                                <a class="page-link rounded-end-8" href="#" aria-label="Next">
+                                <a class="page-link" href="#" aria-label="Next">
                                     <i class="ph ph-caret-right"></i>
                                 </a>
                             </li>
@@ -294,28 +431,18 @@
                 </div>
             {% endif %}
             <!-- Pagination End -->
-
-            <!-- Back to Dashboard Button -->
-            <div class="text-center mt-5 mb-4">
-                <a href="{{ url_for('auth.dashboard') }}" class="btn btn-outline-secondary rounded-8">
-                    <span class="d-flex align-items-center gap-2">
-                        <i class="ph ph-house"></i>
-                        Kembali ke Beranda
-                    </span>
-                </a>
-            </div>
         </div>
         <!-- Dashboard Body End -->
 
         <!-- Dashboard Footer Start -->
         <div class="dashboard-footer">
-            <div class="flex-between flex-wrap gap-16">
-                <p class="text-gray-300 text-13 fw-normal"> &copy; Copyright SmartNote 2025, All Right Reserved</p>
-                <div class="flex-align flex-wrap gap-16">
-                    <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Lisensi</a>
-                    <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Dukungan</a>
-                    <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Bantuan</a>
-                    <a href="#" class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">FAQ</a>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <p class="mb-0 text-gray-500 text-13"> &copy; Copyright SmartNote 2025, All Rights Reserved</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#" class="text-gray-500 text-13 hover-text-main-600">Lisensi</a>
+                    <a href="#" class="text-gray-500 text-13 hover-text-main-600">Dukungan</a>
+                    <a href="#" class="text-gray-500 text-13 hover-text-main-600">Bantuan</a>
+                    <a href="#" class="text-gray-500 text-13 hover-text-main-600">FAQ</a>
                 </div>
             </div>
         </div>
@@ -352,13 +479,15 @@
             
             // Card hover effect dengan animasi yang lebih halus
             const moduleCards = document.querySelectorAll('.modul-card');
-            moduleCards.forEach(card => {
+            moduleCards.forEach((card, index) => {
+                card.style.setProperty('--card-index', index);
+                
                 card.addEventListener('mouseenter', function() {
-                    this.classList.add('shadow-sm');
+                    this.classList.add('shadow');
                 });
                 
                 card.addEventListener('mouseleave', function() {
-                    this.classList.remove('shadow-sm');
+                    this.classList.remove('shadow');
                 });
             });
         });
