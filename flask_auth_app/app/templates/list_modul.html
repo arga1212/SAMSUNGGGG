@@ -364,14 +364,6 @@
                                         <i class="ph ph-calendar"></i>
                                         {{ modul.created_at.strftime('%d %b %Y') }}
                                     </span>
-                                    <span class="badge bg-gray-50 text-gray-600">
-                                        <i class="ph ph-file-text"></i>
-                                        {% if modul.data_modul %}
-                                            {{ modul.data_modul[:15] }}...
-                                        {% else %}
-                                            Tidak ada data
-                                        {% endif %}
-                                    </span>
                                 </div>
                             </div>
                             <div class="card-footer bg-white">
@@ -380,6 +372,7 @@
                                         <i class="ph ph-eye"></i>
                                         <span class="d-inline-block ms-1">Buka</span>
                                     </a>
+                                    <br>
                                     <a href="{{ url_for('quizz.generate', modul_id=modul.id) }}" class="btn btn-sm btn-main rounded-8 generate-quiz-btn" data-modul-id="{{ modul.id }}" title="Buat quiz">
                                         <i class="ph ph-lightning"></i>
                                         <span class="d-inline-block ms-1">Buat Quiz</span>
@@ -408,29 +401,6 @@
             </div>
             <!-- Modules List End -->
 
-            <!-- Pagination Start -->
-            {% if modul_list|length > 0 %}
-                <div class="d-flex justify-content-center mt-5">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <i class="ph ph-caret-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <i class="ph ph-caret-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            {% endif %}
-            <!-- Pagination End -->
         </div>
         <!-- Dashboard Body End -->
 

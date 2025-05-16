@@ -40,12 +40,12 @@ def generate_summarize(transkrip_id):
         'temperature': 0.7,
         'top_p': 0.9,
         'top_k': 40,
-        'max_output_tokens': 7000
+        'max_output_tokens': 5000
     }
 )
 
     prompt_summarize = """
-    Tolong buatkan rangkuman dari materi berikut ini. Output HARUS berbentuk JSON murni seperti contoh di bawah dan SEMUA field wajib diisi, minimal paling tidak 5000 token,walaupun materinya tidak lengkap:
+    Tolong buatkan rangkuman dari materi berikut ini. Output HARUS berbentuk JSON murni seperti contoh di bawah dan SEMUA field wajib diisi, minimal paling tidak 3500 token,walaupun materinya tidak lengkap:
     [
         {
             "judul_rangkuman": "Judul",

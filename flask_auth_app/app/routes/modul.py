@@ -1,9 +1,11 @@
-from flask import Blueprint, request, render_template, flash, redirect, url_for, session
+from flask import Blueprint, request, render_template, flash, redirect, url_for, session, make_response
 from flask_login import login_required
 from ..models import User, Transkrip, Summarize, Modul
 from .. import db
 import google.generativeai as genai
 import json
+from io import BytesIO
+from xhtml2pdf import pisa
 
 # Konfigurasi Gemini AI
 GOOGLE_API_KEY = 'AIzaSyDBV4t5y7oNh05oZnQxTYcK3rA1FiBd1Wc'
@@ -27,7 +29,6 @@ def generate_modul(transkrip_id):
         flash("Silakan login terlebih dahulu", "warning")
         return redirect(url_for('auth.login'))
 
-    # Ambil transkrip berdasarkan transkrip_id dan user_id
     transkrip = Transkrip.query.filter_by(id=transkrip_id, user_id=user_id).first_or_404()
 
     if not transkrip.teks:
@@ -35,15 +36,14 @@ def generate_modul(transkrip_id):
         return redirect(url_for('upload.view_transkrip', transkrip_id=transkrip_id))
 
     model_modul = genai.GenerativeModel(
-    model_name='models/gemini-2.0-flash',
-    generation_config={
-        'temperature': 0.7,       
-        'top_p': 0.9,             
-        'top_k': 40,              
-        'max_output_tokens': 100000
-    }
-)
-
+        model_name='models/gemini-2.0-flash',
+        generation_config={
+            'temperature': 0.7,
+            'top_p': 0.9,
+            'top_k': 40,
+            'max_output_tokens': 100000
+        }
+    )
 
     prompt_modul = """
     Buatkan modul pembelajaran dari materi berikut. Output HARUS dalam format JSON murni seperti contoh berikut, minimal paling tidak 20000 token dan SEMUA field wajib diisi:
@@ -78,7 +78,7 @@ def generate_modul(transkrip_id):
         try:
             modul_json = json.loads(teks_modul)
             modul_text = json.dumps(modul_json, ensure_ascii=False, indent=2)
-            
+
             new_modul = Modul(
                 data_modul=modul_text,
                 transkrip_id=transkrip_id,
@@ -89,7 +89,7 @@ def generate_modul(transkrip_id):
 
             flash('Modul berhasil dibuat', 'success')
             return redirect(url_for('modul.show_modul', modul_id=new_modul.id))
-            
+
         except json.JSONDecodeError:
             flash('Gagal parsing JSON dari output Gemini', 'error')
             return redirect(url_for('upload.view_transkrip', transkrip_id=transkrip_id))
@@ -122,20 +122,17 @@ def show_modul(modul_id):
 
     return render_template(
         'show_modul.html',
-        modul=modul_data,      # hasil parsing JSON
-        modul_obj=modul_obj,   # objek database asli (untuk id, created_at)
+        modul=modul_data,
+        modul_obj=modul_obj,
         transkrip=transkrip
     )
 
-
-
-import json
 
 @modul_bp.route('/modul')
 def list_modul():
     user_id = session.get('user_id')
     if not user_id:
-        return redirect(url_for('auth.login'))  # Atau sesuaikan dengan halaman loginmu
+        return redirect(url_for('auth.login'))
 
     all_modul = Modul.query.filter_by(user_id=user_id).order_by(Modul.created_at.desc()).all()
 
@@ -144,9 +141,45 @@ def list_modul():
             parsed = json.loads(m.data_modul)
             m.judul_modul = parsed.get('judul_modul')
             m.deskripsi_singkat = parsed.get('deskripsi_singkat')
-        except Exception as e:
+        except Exception:
             m.judul_modul = None
             m.deskripsi_singkat = None
 
     return render_template('list_modul.html', modul_list=all_modul)
 
+
+@modul_bp.route('/download_modul_pdf/<int:modul_id>')
+def download_modul_pdf(modul_id):
+    user_id = session.get('user_id')
+    if not user_id:
+        flash("Silakan login terlebih dahulu.", "warning")
+        return redirect(url_for('auth.login'))
+
+    modul_obj = Modul.query.filter_by(id=modul_id, user_id=user_id).first_or_404()
+    transkrip = Transkrip.query.get(modul_obj.transkrip_id)
+
+    try:
+        modul_data = json.loads(modul_obj.data_modul)
+    except (json.JSONDecodeError, TypeError):
+        flash("Data modul rusak atau tidak valid.", "danger")
+        return redirect(url_for('modul.show_modul', modul_id=modul_id))
+
+    html = render_template(
+        'show_modul.html',
+        modul=modul_data,
+        modul_obj=modul_obj,
+        transkrip=transkrip,
+        is_pdf=True
+    )
+
+    result = BytesIO()
+    pisa_status = pisa.CreatePDF(src=html, dest=result)
+
+    if pisa_status.err:
+        flash("Gagal membuat PDF.", "error")
+        return redirect(url_for('modul.show_modul', modul_id=modul_id))
+
+    response = make_response(result.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename=modul_{modul_id}.pdf'
+    return response
